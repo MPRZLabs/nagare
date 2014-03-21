@@ -12,6 +12,7 @@
         margin-top:20px;
       }
     </style>
+    <link rel="alternate" type="application/rss+xml" href="rss.php">
   </head>
   <body>
     <div class="container">
