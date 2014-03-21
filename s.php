@@ -8,6 +8,7 @@
       <label for="type">Type</label>
       <select id="type" name="type">
         <option value="Location" selected>Location</option>
+        <option value="General mood">General mood</option>
         <option value="Activity">Activity</option>
         <option value="Music mood">Music mood</option>
       </select>

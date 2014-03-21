@@ -18,10 +18,12 @@
     <div class="container">
       <div class="jumbotron">
 <?php
+  $generalmood = $db->query('SELECT * FROM stuff WHERE type="General mood" ORDER BY time DESC LIMIT 1')->fetchArray();
   $location = $db->query('SELECT * FROM stuff WHERE type="Location" ORDER BY time DESC LIMIT 1')->fetchArray();
   $musicmood = $db->query('SELECT * FROM stuff WHERE type="Music mood" ORDER BY time DESC LIMIT 1')->fetchArray();
   $activity = $db->query('SELECT * FROM stuff WHERE type="Activity" ORDER BY time DESC LIMIT 1')->fetchArray();
   echo "        <h1>Michcioperz's simple life log</h1>";
+  echo "        <h3><span class=\"glyphicon glyphicon-dashboard\"></span>General mood: <strong>".$generalmood['data']."</strong> <small>last updated <time class=\"timeago\" datetime=\"".date('c',$generalmood['time'])."\">".date('c',$generalmood['time'])."</time></small></h3>";
   echo "        <h3><span class=\"glyphicon glyphicon-screenshot\"></span> Location: <strong>".$location['data']."</strong> <small>last updated <time class=\"timeago\" datetime=\"".date('c',$location['time'])."\">".date('c',$location['time'])."</time></small></h3>";
   echo "        <h3><span class=\"glyphicon glyphicon-folder-open\"></span> Activity: <strong>".$activity['data']."</strong> <small>last updated <time class=\"timeago\" datetime=\"".date('c',$activity['time'])."\">".date('c',$activity['time'])."</time></small></h3>";
   echo "        <h3><span class=\"glyphicon glyphicon-headphones\"></span> Music mood: <strong>".$musicmood['data']."</strong> <small>last updated <time class=\"timeago\" datetime=\"".date('c',$musicmood['time'])."\">".date('c',$musicmood['time'])."</time></small></h3>";
