@@ -9,5 +9,6 @@
     $query = "INSERT INTO stuff VALUES ('$time','$type','$data')";
     $db->exec($query);
     $db->close();
+    header('location: /');
   }
 ?>
