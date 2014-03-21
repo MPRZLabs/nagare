@@ -12,6 +12,7 @@
         <option value="Music mood">Music mood</option>
       </select>
       <input type="text" name="data">
+      <input type="password" name="pass">
       <input type="submit">
     </form>
   </body>
