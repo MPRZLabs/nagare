@@ -35,7 +35,9 @@
     $base = opentehbase();
     $qry = $base->query('SELECT * FROM columns ORDER BY ord ASC');
     while ($col = $qry->fetchArray()) {
-      $cols[$col['name']] = $col;
+      $cols[$col['name']] = array();
+      $cols[$col['name']]['glyphicon'] = $col['glyphicon'];
+      $cols[$col['name']]['order'] = $col['ord'];
     }
     return $cols;
   }
