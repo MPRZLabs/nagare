@@ -1,4 +1,6 @@
 <?php
+  error_reporting(E_ALL);
+  date_default_timezone_set('Europe/Berlin');
   $db = new SQLite3("jinsei.sqlite");
 ?>
 <!DOCTYPE html>
@@ -18,16 +20,14 @@
     <div class="container">
       <div class="jumbotron">
 <?php
-  $generalmood = $db->query('SELECT * FROM stuff WHERE type="General mood" ORDER BY time DESC LIMIT 1')->fetchArray();
-  $location = $db->query('SELECT * FROM stuff WHERE type="Location" ORDER BY time DESC LIMIT 1')->fetchArray();
-  $musicmood = $db->query('SELECT * FROM stuff WHERE type="Music mood" ORDER BY time DESC LIMIT 1')->fetchArray();
-  $activity = $db->query('SELECT * FROM stuff WHERE type="Activity" ORDER BY time DESC LIMIT 1')->fetchArray();
   echo "        <h1>Michcioperz's simple life log</h1>";
-  echo "        <h3><span class=\"glyphicon glyphicon-dashboard\"></span>General mood: <strong>".$generalmood['data']."</strong> <small>last updated <time class=\"timeago\" datetime=\"".date('c',$generalmood['time'])."\">".date('c',$generalmood['time'])."</time></small></h3>";
-  echo "        <h3><span class=\"glyphicon glyphicon-screenshot\"></span> Location: <strong>".$location['data']."</strong> <small>last updated <time class=\"timeago\" datetime=\"".date('c',$location['time'])."\">".date('c',$location['time'])."</time></small></h3>";
-  echo "        <h3><span class=\"glyphicon glyphicon-folder-open\"></span> Activity: <strong>".$activity['data']."</strong> <small>last updated <time class=\"timeago\" datetime=\"".date('c',$activity['time'])."\">".date('c',$activity['time'])."</time></small></h3>";
-  echo "        <h3><span class=\"glyphicon glyphicon-headphones\"></span> Music mood: <strong>".$musicmood['data']."</strong> <small>last updated <time class=\"timeago\" datetime=\"".date('c',$musicmood['time'])."\">".date('c',$musicmood['time'])."</time></small></h3>";
+  $columns = $db->query('SELECT * FROM columns ORDER BY ord ASC');
+  while ($col = $columns->fetchArray()) {
+    $row = $db->query('SELECT * FROM stuff WHERE type="'.$col['name'].'" ORDER BY time DESC LIMIT 1')->fetchArray();
+    echo "        <h3><span class=\"glyphicon ".$col['glyphicon']."\"></span> ".$col['name'].": <strong>".$row['data']."</strong> <small>last updated <time class=\"timeago\" datetime=\"".date('c',$row['time'])."\">".date('c',$row['time'])."</time></small></h3>";
+  }
 ?>
+        <div class="pull-right"><button type="button" class="btn btn-default" id="btn--refresh"><span class="glyphicon glyphicon-refresh"></span> Refresh</button><br /><small>will auto-refresh every 60 seconds</small></div>
       </div>
       <div class="jumbotron">
         <h2>History of updates:</h2>
@@ -45,8 +45,12 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-timeago/1.3.1/jquery.timeago.min.js"></script>
     <script>
+      $("button#btn--refresh").click(function() {
+        window.location.reload();
+      });
       $(document).ready(function() {
         $('time.timeago').timeago();
+        setInterval(function () { window.location.reload();  }, 60000)
       });
     </script>
   </body>
