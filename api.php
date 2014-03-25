@@ -68,7 +68,7 @@
           $data = $base->escapeString($_REQUEST['data']);
           if ($type != "" && $data != "") {
             $time = time();
-            $query = "INSERT INTO stuff VALUES ('$time','$type','$data')";
+            $query = "INSERT INTO stuff (time, type, data) VALUES ('$time','$type','$data')";
             $base->exec($query);
             $return['code'] = 0;
             $return['emsg'] = "Responding to request";
