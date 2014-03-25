@@ -30,6 +30,10 @@
     return 0;
   }
   
+  function editrow($id, $type, $data) {
+    opentehbase()->query("UPDATE stuff SET type = '".$type."', data = '".$data."' WHERE rid = ".$id);
+  }
+  
   function getcolumns() {
     $cols = array();
     $base = opentehbase();
@@ -73,6 +77,27 @@
             $return['code'] = 4;
             $return['emsg'] = "Missing type or data";
           }
+          break;
+        default:
+          $return['code'] = 3;
+          $return['emsg'] = "Insufficient privileges";
+          $return['data'] = array('level'=>$cds);
+      }
+      break;
+    case "editrow":
+      $cds = checkcreds();
+      switch($cds) {
+        case 7:
+        case 6:
+        case 5:
+        case 4:
+          $base = opentehbase();
+          $id = $_REQUEST['id'];
+          $type = $base->escapeString($_REQUEST['type']);
+          $data = $base->escapeString($_REQUEST['data']);
+          editrow($id, $type, $data);
+          $return['code'] = 0;
+          $return['emsg'] = "Responding to request";
           break;
         default:
           $return['code'] = 3;

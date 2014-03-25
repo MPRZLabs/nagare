@@ -35,7 +35,7 @@
 <?php
   $results = $db->query('SELECT * FROM stuff ORDER BY time DESC LIMIT 50');
   while ($row = $results->fetchArray()) {
-    echo "          <li><small><time class=\"timeago\" datetime=\"".date('c',$row['time'])."\">".date('c',$row['time'])."</time></small> &raquo; ".$row['type'].": ".$row['data']."</li>";
+    echo "          <li class=\"lekaboom\"><a href=\"ed.php?id=".$row['rid']."\" alt=\"edit row\"><small>#".$row['rid']."</small></a> &laquo; <small><time class=\"timeago\" datetime=\"".date('c',$row['time'])."\">".date('c',$row['time'])."</time></small> &raquo; ".$row['type'].": ".$row['data']."</li>";
   }
 ?>
         </ul>
@@ -50,7 +50,7 @@
       });
       $(document).ready(function() {
         $('time.timeago').timeago();
-        setInterval(function () { window.location.reload();  }, 60000)
+        setInterval(function () { window.location.reload(); }, 60000);
       });
     </script>
   </body>
